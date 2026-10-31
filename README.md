@@ -23,3 +23,11 @@ override the usual CMake configuration defaults.
 Regenerate these headers only through `darling/scripts/generate-offlineasm.sh`
 after the derived sources, as described in the source-update notes. Opcode
 implementations belong in the LLInt assembly sources, not generated headers.
+
+## Non-unified compilation
+
+Methods declared in `JSObject.h` and used by separate translation units need
+an out-of-line definition unless their complete inline definition is provided
+by a shared header. `getNonReifiedStaticPropertyNames` is defined in
+`JSObject.cpp` and called by `JSPropertyNameEnumerator.cpp`; keep its definition
+out of line so the normal non-unified framework link can resolve that call.
