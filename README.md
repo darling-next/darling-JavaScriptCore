@@ -31,3 +31,11 @@ an out-of-line definition unless their complete inline definition is provided
 by a shared header. `getNonReifiedStaticPropertyNames` is defined in
 `JSObject.cpp` and called by `JSPropertyNameEnumerator.cpp`; keep its definition
 out of line so the normal non-unified framework link can resolve that call.
+
+## Public C API headers
+
+Darling exposes the source C API headers without Apple's header-rewrite step.
+`WebKitAvailability.h` maps `JSC_API_AVAILABLE` to the SDK's real
+`__API_AVAILABLE` annotations for external Darwin clients. Internal builds may
+provide their existing definition through `config.h`; public clients must not
+need that private build configuration to include the API.

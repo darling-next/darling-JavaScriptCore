@@ -28,8 +28,13 @@
 
 #if defined(__APPLE__)
 
+#include <Availability.h>
 #include <AvailabilityMacros.h>
 #include <CoreFoundation/CoreFoundation.h>
+
+#ifndef JSC_API_AVAILABLE
+#define JSC_API_AVAILABLE(...) __API_AVAILABLE(__VA_ARGS__)
+#endif
 
 #if defined(BUILDING_GTK__)
 #undef JSC_API_AVAILABLE
