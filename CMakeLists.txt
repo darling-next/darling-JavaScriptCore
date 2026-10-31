@@ -2158,9 +2158,9 @@ endif()
 # (I was able to get my 32GB system to run out of memory)... So to workaround that issue, we are going to 
 # rework how llint/LowLevelInterpreter.cpp gets build.
 if (TARGET_x86_64)
-	# While the release header is able to build low_level_interpreter_x86_64, the linker does complain about
-	# undefined symbols, so we will just stick with the debug header.
-	set(LOW_LEVEL_INTERPRETER_X86_64_HEADERS "DerivedSources/JavaScriptCore/LLIntOffsets/X86_64/debug")
+	# Select the assertion variant in LowLevelInterpreter.cpp, using the same
+	# ASSERT_ENABLED setting as the rest of JavaScriptCore.
+	set(LOW_LEVEL_INTERPRETER_X86_64_HEADERS "DerivedSources/JavaScriptCore/LLIntOffsets/X86_64")
 
 	add_darling_object_library(low_level_interpreter_x86_64 64BIT_ONLY llint/LowLevelInterpreter.cpp)
 	target_include_directories(low_level_interpreter_x86_64 PUBLIC ${LOW_LEVEL_INTERPRETER_X86_64_HEADERS})
@@ -2169,10 +2169,7 @@ else()
 endif()
 
 if (TARGET_i386)
-	# I don't know why, but for some reason, building LowLevelInterpreter.cpp with the release header fails
-	# for i386. Generating the X86 header doesn't work, so I'm just going to stick with using the debug
-	# header file instead.
-	set(LOW_LEVEL_INTERPRETER_I386_HEADERS "DerivedSources/JavaScriptCore/LLIntOffsets/C_LOOP/debug")
+	set(LOW_LEVEL_INTERPRETER_I386_HEADERS "DerivedSources/JavaScriptCore/LLIntOffsets/C_LOOP")
 	
 	add_darling_object_library(low_level_interpreter_i386 32BIT_ONLY llint/LowLevelInterpreter.cpp)
 	target_include_directories(low_level_interpreter_i386 PUBLIC ${LOW_LEVEL_INTERPRETER_I386_HEADERS})
